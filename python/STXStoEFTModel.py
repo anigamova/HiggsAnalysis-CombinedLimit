@@ -127,6 +127,7 @@ class STXStoEFTBaseModel(SMLikeHiggsModel):
     file_in = open(filename,"r")
     lines = [l for l in file_in]
     for line in lines[skipRows:]:
+      print line
       if( len(line.strip())== 0 ): continue
 
       # If param is frozen (except cWW+cB) then skip poi
@@ -159,6 +160,7 @@ class STXStoEFTBaseModel(SMLikeHiggsModel):
     # Loop over lines in txt file
     for line in lines[skipRows:]:      
       # Extract STXS bin and scaling function
+      print line
       stxs_bin_, function = line.split(":")
       # Format function: remove spaces
       function = function.replace('\n','')
@@ -206,12 +208,16 @@ class STXStoEFTBaseModel(SMLikeHiggsModel):
 
     #loop over terms in formula (ignoring first term which is just 1 [perturbation theory])
     for term in formula[1:]:
+      print term
       constituents = term.split("*")
+      print constituents
       # If param is frozen then skip term
       skipTerm = False
       if self.freezeOtherParameters:
         for c in constituents[1:]: #Ignore pre-factor
+          print "wc:",c
           if c not in self.distinctParametersOfInterest: skipTerm = True
+      print "skipTerm:",skipTerm
       # If set: only include linear terms
       if self.linearOnly:
         if len(constituents) > 2: skipTerm = True
@@ -226,11 +232,12 @@ class STXStoEFTBaseModel(SMLikeHiggsModel):
         for sc in scaled_constituents: termStr += "%s,"%sc
         termStr = termStr[:-1]+")"
         # add term to model and dictionary
+        print "termStr: ",termStr
         self.modelBuilder.factory_( termStr )
         formulaTerms.append("term_%s_%g"%(what,_termIdx))
         # add one to the iterator
         _termIdx += 1
-
+    print "formulaTerms:",formulaTerms
     #split up sums into sizeable chunks: 15 terms max
     sumTerms = {}
     _sumIdx = -1 #start at -1
@@ -243,14 +250,16 @@ class STXStoEFTBaseModel(SMLikeHiggsModel):
       if sumString in sumTerms: sumTerms[ sumString ] += "%s,"%formulaTerms[_termIdx]
       else: sumTerms[ sumString ] = "%s,"%formulaTerms[_termIdx ]
     #Add sizeable sums as RooAdditions
-    for key, value in sumTerms.iteritems(): self.modelBuilder.factory_( "sum::%s(%s)"%(key,value[:-1]) )
+    for key, value in sumTerms.iteritems(): 
+        self.modelBuilder.factory_( "sum::%s(%s)"%(key,value[:-1]) )
+        print "sum::%s(%s)"%(key,value[:-1])
 
     #Define string for total: 1 + sizeable sums
     if( what in self.DecayScalingFunctions )&( what != "tot" ): totalStr = "sum::scaling_partial_%s(1,"%what
     else: totalStr = "sum::scaling_%s(1,"%what
     for key in sumTerms: totalStr += "%s,"%key
     totalStr = totalStr[:-1]+")"
-          
+    print totalStr      
     #Add scaling function as RooAddition into model
     self.modelBuilder.factory_( totalStr )
 
@@ -571,11 +580,105 @@ def convert_to_STXS( _production, _decay ):
     
   return _production
 
+class StageXToEFTModel_VHbb(STXStoEFTBaseModel):
+  def __init__(self,stage):
+    STXStoEFTBaseModel.__init__(self)
+    self.stage = stage
+    print stage
+    import HiggsAnalysis.CombinedLimit.STXS as STXS
+    self.PROCESSES['stage%s'%self.stage] = [x for v in getattr(STXS,"stage%s_procs"%self.stage).itervalues() for x in v]
+    self.PROCESSES["fixedproc"] = STXS.fixed_procs
+    self.DECAYS = ['hbb','tot']
+    self.parametersOfInterest = ['chq3','chq1','chu','chd','chw','chwb']
+    self.distinctParametersOfInterest = ['chq3','chq1','chu','chd','chw','chwb']
+
+  def setPhysicsOptions(self,physOptions):
+    self.setPhysicsOptionsBase(physOptions)
+
+  def doParametersOfInterest(self):
+    if self.floatMass: print " --> [WARNING] Floating Higgs mass selected. STXStoEFT model assumes MH=125.0 GeV"
+    print  'in doParametersOfInterest'
+    self.doMH()
+    self.SMH = SMHiggsBuilder(self.modelBuilder)
+
+    #Read in parameter list from file using textToPOIList function
+    self.textToPOIList( os.path.join(self.SMH.datadir,'eft/SMEFT/pois.txt') )
+#    print  
+    POIs = ','.join(self.pois.keys())
+    for poi, poi_range in self.pois.iteritems():
+      self.modelBuilder.doVar("%s%s"%(poi,poi_range))
+    print POIs
+    self.modelBuilder.doSet("POI",POIs)
+    self.setup()
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  def setup(self):
+    #For additional options e.g. STXS/BR uncertainties: defined in base class
+    if self.doBRU: self.SMH.makePartialWidthUncertainties()
+    if self.doSTXSU: self.makeSTXSBinUncertainties( STXSstage=self.stage )
+
+    # Read scaling functions for STXS bins and decays from txt files
+    self.textToSTXSScalingFunctions( os.path.join(self.SMH.datadir, 'eft/SMEFT/stage%s_xs.txt'%self.stage) )
+    self.textToDecayScalingFunctions( os.path.join(self.SMH.datadir, 'eft/SMEFT/decay.txt' ) )
+
+    # Make scaling functions for STXS processes
+    for proc in self.PROCESSES["stage%s"%self.stage]: self.makeScalingFunction( proc, STXSstage=self.stage )
+
+    # Make dummy scaling (=1) for fixed procs
+    for proc in self.PROCESSES["fixedproc"]: self.modelBuilder.factory_("expr::scaling_%s(\"@0\",1.)"%proc)
+
+    # Make partial width + total width scaling functions
+    for dec in self.DECAYS: self.makeScalingFunction( dec )
+    # Make BR scaling functions: partial width/total width
+    for dec in self.DECAYS:
+      if dec != "tot": self.makeBRScalingFunction( dec )
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  def getHiggsSignalYieldScale(self,production,decay,energy):
+    print production,decay,energy
+    name = "stxstoeft_scaling_%s_%s_%s"%(production,decay,energy)
+    if self.modelBuilder.out.function(name) == None:
+
+      XSscal = None
+      BRscal = None
+
+      # Extract STXS stage process belongs to: in descreasing order as want most recent th. unc
+      print production
+      if production in self.PROCESSES['stage%s'%self.stage]: key = "stage%s"%self.stage
+      elif production in self.PROCESSES['fixedproc']: key = "fixedproc"
+      else:
+        raise ValueError("[ERROR] Process %s is not supported in STXStoEFT Model (stage %s)"%(production,self.stage))
+      # Give production correct scaling
+      XSscal = "scaling_%s"%production
+
+      # Check decay scaling exists:
+      if decay in self.DECAYS: BRscal = "scaling_BR_%s"%decay
+      else:
+        raise ValueError("[ERROR] Decay %s is not supported in STXStoEFT Model"%decay)
+
+      # Uncertainty scaling: BR and STXS bin uncertainties
+      if( self.doSTXSU )&( self.doBRU ):
+        THUscaler = "uncertainty_scaling_%s_%s"%(production,decay)
+        self.modelBuilder.factory_('expr::uncertainty_scaling_%s_%s(\"@0*@1\",%s_UncertaintyScaling_%s,HiggsDecayWidth_UncertaintyScaling_%s)'%(production,decay,key,production,decay))
+      elif( self.doSTXSU ):
+        THUscaler = "uncertainty_scaling_%s"%production
+        self.modelBuilder.factory_('expr::uncertainty_scaling_%s(\"@0\",%s_UncertaintyScaling_%s)'%(production,key,production))
+      elif( self.doBRU ):
+        THUscaler = "uncertainty_scaling_%s"%decay
+        self.modelBuilder.factory_('expr::uncertainty_scaling_%s(\"@0\",HiggsDecayWidth_UncertaintyScaling_%s)'%(decay,decay))
+
+      #Combine XS and BR scaling: incuding theory unc if option selected
+      if( self.doSTXSU )|( self.doBRU ): self.modelBuilder.factory_("prod::%s(%s)"%(name,",".join([XSscal,BRscal,THUscaler])))
+      else: 
+            self.modelBuilder.factory_("prod::%s(%s)"%(name,",".join([XSscal,BRscal])))
+
+    return name
 
 #################################################################################################################
 # Instantiation of STXStoEFT models
 Stage0toEFT = StageXToEFTModel("0")
 Stage1toEFT = StageXToEFTModel("1")
 Stage1_1toEFT = StageXToEFTModel("1_1")
+Stage1_1toEFT_SMEFT_VHbb = StageXToEFTModel_VHbb("1_1")
 AllStagestoEFT = AllStagesToEFTModel()
 

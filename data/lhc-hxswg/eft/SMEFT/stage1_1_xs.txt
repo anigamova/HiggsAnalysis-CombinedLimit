@@ -1,0 +1,18 @@
+ZH_lep_PTV_0_75:1 + 0.069 * chq1 + 1.161 * chq3 + 0.231 * chu - 0.108 * chd + 0.674 * chw + 0.318 * chwb + 0.520 * chq1 * chq1 + 0.520 * chq3 * chq3 + 0.280 * chu * chu + 0.215 * chd * chd + 0.157 * chw * chw + 0.053 * chwb * chwb - 0.182 * chq1 * chq3 - 0.000 * chq1 * chu - 0.000 * chq1 * chd - 0.006 * chq1 * chw + 0.018 * chq1 * chwb + 0.000 * chq3 * chu - 0.000 * chq3 * chd + 0.484 * chq3 * chw + 0.199 * chq3 * chwb - 0.000 * chu * chd + 0.008 * chu * chw + 0.068 * chu * chwb - 0.004 * chd * chw - 0.031 * chd * chwb + 0.109 * chw * chwb
+ZH_lep_PTV_75_150:1 + 0.095 * chq1 + 1.820 * chq3 + 0.365 * chu - 0.167 * chd + 0.751 * chw + 0.338 * chwb + 1.529 * chq1 * chq1 + 1.530 * chq3 * chq3 + 0.921 * chu * chu + 0.573 * chd * chd + 0.234 * chw * chw + 0.056 * chwb * chwb - 0.683 * chq1 * chq3 - 0.000 * chq1 * chu - 0.000 * chq1 * chd - 0.030 * chq1 * chw + 0.041 * chq1 * chwb + 0.000 * chq3 * chu - 0.000 * chq3 * chd + 0.834 * chq3 * chw + 0.312 * chq3 * chwb - 0.000 * chu * chd + 0.009 * chu * chw + 0.115 * chu * chwb - 0.004 * chd * chw - 0.053 * chd * chwb + 0.154 * chw * chwb
+ZH_lep_PTV_150_250_0J:1 + 0.048 * chq1 + 3.700 * chq3 + 0.774 * chu - 0.327 * chd + 0.871 * chw + 0.378 * chwb + 5.221 * chq1 * chq1 + 5.221 * chq3 * chq3 + 2.715 * chu * chu + 2.667 * chd * chd + 0.498 * chw * chw + 0.101 * chwb * chwb - 0.428 * chq1 * chq3 - 0.000 * chq1 * chu + 0.000 * chq1 * chd - 0.162 * chq1 * chw + 0.077 * chq1 * chwb + 0.000 * chq3 * chu - 0.000 * chq3 * chd + 1.975 * chq3 * chw + 0.693 * chq3 * chwb + 0.000 * chu * chd + 0.011 * chu * chw + 0.303 * chu * chwb - 0.005 * chd * chw - 0.127 * chd * chwb + 0.290 * chw * chwb
+ZH_lep_PTV_150_250_GE1J:1 - 0.108 * chq1 + 3.385 * chq3 + 0.738 * chu - 0.285 * chd + 0.846 * chw + 0.365 * chwb + 4.547 * chq1 * chq1 + 4.546 * chq3 * chq3 + 2.621 * chu * chu + 1.906 * chd * chd + 0.503 * chw * chw + 0.100 * chwb * chwb - 1.393 * chq1 * chq3 - 0.002 * chq1 * chu - 0.001 * chq1 * chd - 0.228 * chq1 * chw + 0.060 * chq1 * chwb + 0.002 * chq3 * chu - 0.002 * chq3 * chd + 1.965 * chq3 * chw + 0.658 * chq3 * chwb + 0.001 * chu * chd + 0.012 * chu * chw + 0.307 * chu * chwb - 0.005 * chd * chw - 0.118 * chd * chwb + 0.273 * chw * chwb
+ZH_lep_PTV_250_400:1 - 0.863 * chq1 + 9.597 * chq3 + 2.220 * chu - 0.764 * chd + 0.935 * chw + 0.398 * chwb + 58.346 * chq1 * chq1 + 58.347 * chq3 * chq3 + 30.584 * chu * chu + 26.954 * chd * chd + 1.562 * chw * chw + 0.297 * chwb * chwb - 4.518 * chq1 * chq3 - 0.015 * chq1 * chu + 0.000 * chq1 * chd - 1.113 * chq1 * chw + 0.086 * chq1 * chwb + 0.009 * chq3 * chu + 0.005 * chq3 * chd + 6.506 * chq3 * chw + 2.092 * chq3 * chwb + 0.000 * chu * chd + 0.015 * chu * chw + 1.200 * chu * chwb - 0.005 * chd * chw - 0.415 * chd * chwb + 0.724 * chw * chwb
+ZH_lep_PTV_GT400:1 - 0.863 * chq1 + 9.597 * chq3 + 2.220 * chu - 0.764 * chd + 0.935 * chw + 0.398 * chwb + 58.346 * chq1 * chq1 + 58.347 * chq3 * chq3 + 30.584 * chu * chu + 26.954 * chd * chd + 1.562 * chw * chw + 0.297 * chwb * chwb - 4.518 * chq1 * chq3 - 0.015 * chq1 * chu + 0.000 * chq1 * chd - 1.113 * chq1 * chw + 0.086 * chq1 * chwb + 0.009 * chq3 * chu + 0.005 * chq3 * chd + 6.506 * chq3 * chw + 2.092 * chq3 * chwb + 0.000 * chu * chd + 0.015 * chu * chw + 1.200 * chu * chwb - 0.005 * chd * chw - 0.415 * chd * chwb + 0.724 * chw * chwb
+WH_lep_PTV_0_75:1 + 0.
+WH_lep_PTV_75_150:1  + 0.
+WH_lep_PTV_150_250_0J:1  + 0.
+WH_lep_PTV_150_250_GE1J:1  + 0.
+WH_lep_PTV_250_400:1 + 0.
+WH_lep_PTV_GT400:1 + 0.
+ggZH_lep_PTV_0_75:1 + 0.
+ggZH_lep_PTV_75_150:1 + 0.
+ggZH_lep_PTV_150_250_0J:1 + 0.
+ggZH_lep_PTV_150_250_GE1J:1 + 0.
+ggZH_lep_PTV_250_400:1 + 0.
+ggZH_lep_PTV_GT400:1 + 0.
