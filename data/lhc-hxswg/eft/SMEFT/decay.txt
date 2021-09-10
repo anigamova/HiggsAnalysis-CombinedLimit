@@ -1,2 +1,2 @@
-hbb:1
+hbb:1 + 0.121 * chbox + -0.030 * chdd + -0.121 * cdhre + -0.121 * chl3 + 0.061 * cll1 + 0.004 * chbox * chbox + 0.000 * chdd * chdd + 0.004 * cdhre * cdhre + 0.004 * chl3 * chl3 + 0.001 * cll1 * cll1 + -0.002 * chbox * chdd + -0.007 * chbox * cdhre + -0.007 * chbox * chl3 + 0.004 * chbox * cll1 + 0.002 * chdd * cdhre + 0.002 * chdd * chl3 + -0.001 * chdd * cll1 + 0.007 * cdhre * chl3 + -0.004 * cdhre * cll1 + -0.004 * chl3 * cll1
 tot:1

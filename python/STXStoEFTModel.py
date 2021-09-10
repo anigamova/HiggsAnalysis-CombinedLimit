@@ -584,13 +584,12 @@ class StageXToEFTModel_VHbb(STXStoEFTBaseModel):
   def __init__(self,stage):
     STXStoEFTBaseModel.__init__(self)
     self.stage = stage
-    print stage
     import HiggsAnalysis.CombinedLimit.STXS as STXS
     self.PROCESSES['stage%s'%self.stage] = [x for v in getattr(STXS,"stage%s_procs"%self.stage).itervalues() for x in v]
     self.PROCESSES["fixedproc"] = STXS.fixed_procs
     self.DECAYS = ['hbb','tot']
-    self.parametersOfInterest = ['chq3','chq1','chu','chd','chw','chwb']
-    self.distinctParametersOfInterest = ['chq3','chq1','chu','chd','chw','chwb']
+    self.parametersOfInterest = ['chq3','chq1','chu','chd','chw','chwb','chbox','chdd','cdhre','chl3','cll1']
+    self.distinctParametersOfInterest = ['chq3','chq1','chu','chd','chw','chwb','chbox','chdd','cdhre','chl3','cll1']
 
   def setPhysicsOptions(self,physOptions):
     self.setPhysicsOptionsBase(physOptions)

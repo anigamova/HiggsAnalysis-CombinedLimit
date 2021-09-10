@@ -5,7 +5,8 @@
 #using convention in https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsTemplateCrossSection
 
 # List for processes without a scaling function
-fixed_procs = ['ggZH_lep','tHq','tHW','bbH']
+fixed_procs = ['tHq','tHW','bbH','ggZH_lep']
+#fixed_procs = ['ggZH_lep','tHq','tHW','bbH','WH_lep']
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 stage0_procs = {
@@ -60,9 +61,14 @@ stage1_1_procs = {
             'qqH_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25','qqH_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25',
             'qqH_GE2J_MJJ_GT700_PTH_0_200_PTHJJ_0_25','qqH_GE2J_MJJ_GT700_PTH_0_200_PTHJJ_GT25'],
 
-  'WH_lep':['WH_lep_PTV_0_75','WH_lep_PTV_75_150','WH_lep_PTV_150_250_0J','WH_lep_PTV_150_250_GE1J','WH_lep_PTV_GT250'],
+  'WH_lep':['WH_lep_PTV_0_75','WH_lep_PTV_75_150','WH_lep_PTV_150_250_0J','WH_lep_PTV_150_250_GE1J','WH_lep_PTV_250_400','WH_lep_PTV_GT400'],
+  'ggZH_lep':['ggZH_lep_PTV_0_75','ggZH_lep_PTV_75_150','ggZH_lep_PTV_150_250_0J','ggZH_lep_PTV_150_250_GE1J','ggZH_lep_PTV_250_400','ggZH_lep_PTV_GT400'],
+  'ZH_lep':['ZH_lep_PTV_0_75','ZH_lep_PTV_75_150','ZH_lep_PTV_150_250_0J','ZH_lep_PTV_150_250_GE1J','ZH_lep_PTV_250_400','ZH_lep_PTV_GT400'],
+  #'ZH_lep':['ZH_lep_PTV_0_75','ZH_lep_PTV_75_150','ZH_lep_PTV_150_250_0J','ZH_lep_PTV_150_250_GE1J','ZH_lep_PTV_GT250','ZH_lep_PTV_250_400','ZH_lep_PTV_GT400'],
+#  'WH_lep_PTV_GT250' : ['WH_lep_PTV_250_400','WH_lep_PTV_GT400'],
+#  'ZH_lep_PTV_GT250' : ['ZH_lep_PTV_250_400','ZH_lep_PTV_GT400'],
+#  'ggZH_lep_PTV_GT250' : ['ggZH_lep_PTV_250_400','ggZH_lep_PTV_GT400'],
 
-  'ZH_lep':['ZH_lep_PTV_0_75','ZH_lep_PTV_75_150','ZH_lep_PTV_150_250_0J','ZH_lep_PTV_150_250_GE1J','ZH_lep_PTV_GT250'],
 
   #'ggZH_lep':['ggZH_lep_PTV_0_75','ggZH_lep_PTV_75_150','ggZH_lep_PTV_150_250_0J','ggZH_lep_PTV_150_250_GE1J','ggZH_lep_PTV_GT250'],
 
@@ -78,7 +84,7 @@ stage1_1_procs = {
 
   'ttH':['ttH']#,
 
-  #'other':['tHq','tHW','bbH']
+  'other':['tHq','tHW','bbH']
 }
 
 stage1_2_procs = {
