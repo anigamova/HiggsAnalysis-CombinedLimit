@@ -1,0 +1,92 @@
+---
+chbox:
+    multiplier: 1
+    val: 0.
+    max: 3.
+    min: -3.
+#chdd:
+#    multiplier: 1
+#    val: 0.
+#    max: 10.
+#    min: -10.
+chg:
+    multiplier: 0.001
+    val: 0.
+    max: 10.
+    min: -15.
+chw:
+    multiplier: 0.01
+    val: 0.
+    max: 3.
+    min: -3.
+chb:
+    multiplier: 0.01
+    val: 0.
+    max: 10.
+    min: -20.
+chwb:
+    multiplier: 0.01
+    val: 0.
+    max: 3.
+    min: -3.
+#cehabs:
+#    multiplier: 1
+#    val: 0.
+#    max: 10.
+#    min: -10.
+#cuhabs:
+#    multiplier: 1
+#    val: 0.
+#    max: 5.
+#    min: -5.
+#cdhabs:
+#    multiplier: 1
+#    val: 0.
+#    max: 4.
+#    min: -4.
+cugre:
+    multiplier: 0.1
+    val: 0.
+    max: 15.
+    min: -10.
+#chl1:
+#    multiplier: 1
+#    val: 0.
+#    max: 3.
+#    min: -3.
+#chl3:
+#    multiplier: 0.1
+#    val: 0.
+#    max: 15.
+#    min: -15.
+#che:
+#    multiplier: 1
+#    val: 0.
+#    max: 6.
+#    min: -6.
+#chq1:
+#    multiplier: 0.1
+#    val: 0.
+#    max: 2.
+#    min: -2.
+chq3:
+    multiplier: 0.1
+    val: 0.
+    max: 2.
+    min: -4.
+chu:
+    multiplier: 0.1
+    val: 0.
+    max: 3.
+    min: -3.
+#chd:
+#    multiplier: 0.1
+#    val: 0.
+#    max: 3.
+#    min: -3.
+#cll1:
+#    multiplier: 0.1
+#    val: 0.
+#    max: 10.
+#    min: -10.
+
