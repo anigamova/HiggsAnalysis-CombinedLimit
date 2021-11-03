@@ -222,7 +222,7 @@ class STXSToSMEFTModel(STXStoSMEFTBaseModel):
     self.SMH = SMHiggsBuilder(self.modelBuilder)
     
     #Read in parameters of interest from yaml file
-    self.extractPOIs("/vols/cms/jl2117/postdoc/hcomb/EFT/Oct21/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/data/eft/smeft_pois.yaml")
+    self.extractPOIs("/nfs/dust/cms/user/nigamova/CombineUpdate/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/data/eft/smeft_pois.yaml")
     #self.extractPOIs("/vols/cms/jl2117/postdoc/hcomb/EFT/Oct21/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/data/eft/smeft_pois_thesis.yaml")
     # Create list of pois and build RooRealVars
     POIs = ','.join(self.pois.keys())
@@ -240,9 +240,8 @@ class STXSToSMEFTModel(STXStoSMEFTBaseModel):
       self.extractSTXSScalingTerms(filename="/vols/cms/jl2117/postdoc/hcomb/EFT/Oct21/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/data/eft/hgg_recolevel_pass2.json")    
       self.extractDecayScalingTerms(filename="/vols/cms/jl2117/postdoc/hcomb/EFT/Oct21/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/data/eft/decay_inclusive_thesis.json")    
     else:
-      #self.extractSTXSScalingTerms(filename="/vols/cms/jl2117/postdoc/hcomb/EFT/Oct21/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/data/eft/hgg_inclusive.json")    
-      self.extractSTXSScalingTerms(filename="/vols/cms/jl2117/postdoc/hcomb/EFT/Oct21/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/data/eft/hgg_inclusive_pass2.json")    
-      self.extractDecayScalingTerms(filename="/vols/cms/jl2117/postdoc/hcomb/EFT/Oct21/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/data/eft/decay_inclusive_thesis.json")    
+      self.extractSTXSScalingTerms(filename="/nfs/dust/cms/user/nigamova/CombineUpdate/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/data/eft/VH.json")    
+      self.extractDecayScalingTerms(filename="/nfs/dust/cms/user/nigamova/CombineUpdate/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/data/eft/decay_inclusive_thesis.json")    
 
     # Make total scaling function for decay side
     self.makeScalingFunction("tot", isDecay=True)

@@ -64,11 +64,11 @@ cugre:
 #    val: 0.
 #    max: 6.
 #    min: -6.
-#chq1:
-#    multiplier: 0.1
-#    val: 0.
-#    max: 2.
-#    min: -2.
+chq1:
+    multiplier: 0.1
+    val: 0.
+    max: 2.
+    min: -2.
 chq3:
     multiplier: 0.1
     val: 0.
@@ -79,11 +79,11 @@ chu:
     val: 0.
     max: 3.
     min: -3.
-#chd:
-#    multiplier: 0.1
-#    val: 0.
-#    max: 3.
-#    min: -3.
+chd:
+    multiplier: 0.1
+    val: 0.
+    max: 3.
+    min: -3.
 #cll1:
 #    multiplier: 0.1
 #    val: 0.
