@@ -157,11 +157,26 @@ class ShapeBuilder(ModelBuilder):
                         bbb_names.append(n)
                         parname = n
                         self.out._import(arg)
+                        r =  "-7,7"
+                        sig = 1.0;
+                        #if ("prop_binvhbb" in n and "13TeV2018" in n):
+                        #if ("prop_binvhbb" in n and "13TeV2018" in n and ("_1_" in n or "_2_" in n or "_3_" in n or "_4_" in n or "_5_" in n or "_6_" in n or "_7_" in n or "_8_" in n or "_9_" in n)): 
+                        if ("prop_binvhbb" in n and "13TeV2018" in n and ("_5_" in n or "_6_" in n or "_7_" in n or "_8_" in n or "_9_" in n)): 
+                            sig = float(0.41)
+                            sigscale = sig * (4 if pdf == "shape" else 7)
+                            r = "-%g,%g" % (sigscale,sigscale)
+                            print "scaling", n, "b", sig,r
+                        if ("prop_binvhbb" in n and "13TeV2018" in n and ("_14_" in n or "_15_" in n or "_16_" in n or "_18_" in n or "_19_" in n or "_20_" in n or "_21_" in n or "_22_" in n or "_23_" in n or "_24_" in n)):
+                            sig = float(0.58)
+                            sigscale = sig * (4 if pdf == "shape" else 7)
+                            r = "-%g,%g" % (sigscale,sigscale)
+                            print "scaling", n, "b", sig,r
+                        sig = '%g' % sig
                         if arg.getAttribute("createGaussianConstraint"):
                             if self.options.noOptimizePdf:
-                                self.doObj("%s_Pdf" % n, "Gaussian", "%s, %s_In[0,%s], %s" % (n, n, '-7,7', '1.0'), True)
+                                self.doObj("%s_Pdf" % n, "Gaussian", "%s, %s_In[0,%s], %s" % (n, n, r, sig), True)
                             else:
-                                self.doObj("%s_Pdf" % n, "SimpleGaussianConstraint", "%s, %s_In[0,%s], %s" % (n, n, '-7,7', '1.0'), True)
+                                self.doObj("%s_Pdf" % n, "SimpleGaussianConstraint", "%s, %s_In[0,%s], %s" % (n, n, r, sig), True)
                             self.out.var(n).setVal(0)
                             self.out.var(n).setError(1)
                             if self.options.optimizeBoundNuisances: self.out.var(n).setAttribute("optimizeBounds")
