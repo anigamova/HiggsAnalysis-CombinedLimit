@@ -13,7 +13,7 @@
 #include "RooMsgService.h"
 #include "RooProdPdf.h"
 
-
+#include <functional>
 
 ClassImp(VerticalInterpPdf)
 
@@ -87,12 +87,9 @@ VerticalInterpPdf::VerticalInterpPdf(const VerticalInterpPdf& other, const char*
 Double_t VerticalInterpPdf::evaluate() const 
 {
   // Do running sum of coef/func pairs, calculate lastCoef.
-  Double_t value = _pdfFloorVal;
-  if (_quadraticAlgo >= 0) {
-    value = RooFit::Detail::MathFuncs::opInterpolate<std::plus<Double_t>>(_coefList, _funcList, _pdfFloorVal, _quadraticRegion, _quadraticAlgo);
-  } else {
-    value = RooFit::Detail::MathFuncs::opInterpolate<std::multiplies<Double_t>>(_coefList, _funcList, _pdfFloorVal, _quadraticRegion, _quadraticAlgo);
-  }
+  Double_t value = (_quadraticAlgo >= 0) ?
+    RooFit::Detail::MathFuncs::opInterpolate<std::plus<Double_t>>(_coefList, _funcList, _pdfFloorVal, _quadraticRegion, _quadraticAlgo) :
+    RooFit::Detail::MathFuncs::opInterpolate<std::multiplies<Double_t>>(_coefList, _funcList, _pdfFloorVal, _quadraticRegion, _quadraticAlgo);
   return value;
 }
 
@@ -240,7 +237,7 @@ RooAbsReal* VerticalInterpPdf::makeConditionalProdPdfIntegral(RooAbsPdf* pdf, Ro
 const RooArgList& VerticalInterpPdf::funcIntListFromCache() const
 {
   // Return the list of integrals of the component functions
-  CacheElem* cache = (CacheElem*) _normIntMgr.getObjByIndex(0) ;
+  auto* cache = dynamic_cast<CacheElem*>(_normIntMgr.getObjByIndex(0));
   return cache->_funcIntList;
 }
 
@@ -259,7 +256,7 @@ Double_t VerticalInterpPdf::analyticalIntegralWN(Int_t code, const RooArgSet* no
   Double_t value = RooFit::Detail::MathFuncs::opInterpolate<std::plus<Double_t>>(_coefList, fIntL, _pdfFloorVal, _quadraticRegion, _quadraticAlgo, normSet2);
 
   Double_t normVal(1) ;
-  RooArgList& fNormL = ((CacheElem*)_normIntMgr.getObjByIndex(0))->_funcNormList;
+  RooArgList& fNormL = (dynamic_cast<CacheElem*>(_normIntMgr.getObjByIndex(0)))->_funcNormList;
   if (normSet2) {
     normVal = RooFit::Detail::MathFuncs::opInterpolate<std::plus<Double_t>>(_coefList, fNormL, _pdfFloorVal, _quadraticRegion, _quadraticAlgo, normSet2);
   }

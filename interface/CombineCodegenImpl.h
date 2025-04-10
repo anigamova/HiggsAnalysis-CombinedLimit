@@ -2,8 +2,6 @@
 #define HiggsAnalysis_CombinedLimit_CombineCodegenImpl_h
 
 #include <ROOT/RConfig.hxx> // for ROOT_VERSION
-#include <RooAbsReal.h>
-#include <string>
 
 #if ROOT_VERSION_CODE >= ROOT_VERSION(6,35,0)
 # define COMBINE_DECLARE_CODEGEN_IMPL(CLASS_NAME) \
