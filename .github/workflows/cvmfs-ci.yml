@@ -40,11 +40,12 @@ jobs:
     name: Test with ${{ matrix.CMSSW_VERSION }} and ${{ matrix.ROOT }} 
     steps:
       - name: whereami
-        options: ${{env.docker_opt_ro}}
-        run: | 
-          pwd
-          ls -ltr 
-          ls /home/cmsusr/
+        with:
+          options: ${{env.docker_opt_ro}}
+          run: | 
+            pwd
+            ls -ltr 
+            ls /home/cmsusr/
 
       - uses: actions/checkout@v4
       - uses: cvmfs-contrib/github-action-cvmfs@v4
