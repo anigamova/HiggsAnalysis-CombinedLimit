@@ -43,7 +43,8 @@ jobs:
         run: | 
           pwd
           ls -ltr 
-          
+          mkdir -p /home/runner/work/artifacts
+
       - uses: actions/checkout@v4
       - uses: cvmfs-contrib/github-action-cvmfs@v4
         with:
@@ -55,8 +56,8 @@ jobs:
           shell: bash
           options: ${{env.docker_opt_rw}}
           run: | 
+            ls /home/runner/work/artifacts
             cd /home/cmsusr/
-            mkdir -p artifacts
             source /cvmfs/cms.cern.ch/cmsset_default.sh
             scram project ${CMSSW_VERSION}
             cd ${CMSSW_VERSION}/src
@@ -75,6 +76,7 @@ jobs:
           shell: bash
           options: ${{env.docker_opt_ro}}
           run: |
+            ls /home/runner/work/artifacts
             cp -r cmssw/${CMSSW_VERSION} .
             cd /home/cmsusr/${CMSSW_VERSION}/src
             source /cvmfs/cms.cern.ch/cmsset_default.sh
