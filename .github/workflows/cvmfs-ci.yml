@@ -40,10 +40,11 @@ jobs:
     name: Test with ${{ matrix.CMSSW_VERSION }} and ${{ matrix.ROOT }} 
     steps:
       - name: whereami
+        options: ${{env.docker_opt_ro}}
         run: | 
           pwd
           ls -ltr 
-          mkdir -p /home/runner/work/artifacts
+          ls /home/cmsusr/
 
       - uses: actions/checkout@v4
       - uses: cvmfs-contrib/github-action-cvmfs@v4
@@ -56,7 +57,7 @@ jobs:
           shell: bash
           options: ${{env.docker_opt_rw}}
           run: | 
-            ls /home/runner/work/artifacts
+            ls /home/cmsusr/
             cd /home/cmsusr/
             source /cvmfs/cms.cern.ch/cmsset_default.sh
             scram project ${CMSSW_VERSION}
@@ -161,7 +162,7 @@ jobs:
         with:
           image: ${{ matrix.IMAGE }}
           shell: bash
-          options: ${{env.docker_opt_ro}} 
+          options: ${{ env.docker_opt_ro }}
           run: |
             cp -r cmssw/${CMSSW_VERSION} .
             cd /home/cmsusr/${CMSSW_VERSION}/src
