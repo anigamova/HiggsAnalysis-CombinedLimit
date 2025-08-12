@@ -69,6 +69,40 @@ jobs:
             root --version
             combine --help
 
+      - name: whereami
+        run: | 
+          pwd
+          ls -ltr 
+          ls /home/runner/work/
+
+
+      - uses: rhaschke/docker-run-action@v5
+        name: RooMultiPdf
+        if: ${{ startsWith(matrix.CMSSW_VERSION, 'CMSSW_14') }}
+        with:
+          image: ${{ matrix.IMAGE }}
+          shell: bash
+          options: ${{ env.docker_opt_ro }}
+          run: |
+            ls /home/runner/work/
+            cp -r cmssw/${CMSSW_VERSION} .
+            cd /home/cmsusr/${CMSSW_VERSION}/src
+            source /cvmfs/cms.cern.ch/cmsset_default.sh
+            cmsenv
+            ulimit -s unlimited
+            text2workspace.py HiggsAnalysis/CombinedLimit/data/ci/datacard_RooMultiPdf.txt.gz  -o ws_RooMultiPdf.root
+            combine -M MultiDimFit -m 125.38  --setParameters pdf_index_ggh=2 --freezeParameters MH --cminDefaultMinimizerStrategy 0 --X-rtd FAST_VERTICAL_MORPH --X-rtd MINIMIZER_freezeDisassociatedParams --X-rtd MINIMIZER_multiMin_maskChannels=2 --algo singles ws_RooMultiPdf.root
+            combine -M MultiDimFit -m 125.38 -n RooMultiPdfGrid --freezeParameters MH --cminDefaultMinimizerStrategy 0 --X-rtd FAST_VERTICAL_MORPH --X-rtd MINIMIZER_freezeDisassociatedParams --X-rtd MINIMIZER_multiMin_maskChannels=2 --algo grid ws_RooMultiPdf.root --setParameterRanges r=-1,2 --points 80 -P r
+            plot1DScan.py higgsCombineRooMultiPdfGrid.MultiDimFit.mH125.38.root -o scan_RooMultiPdf 
+            cp scan_RooMultiPdf.pdf /home/runner/work/.
+
+
+      - name: Upload scan_RooMultiPdf.pdf
+        uses: actions/upload-artifact@v4
+        with:
+          name: Scan for RooMultiPdf 
+          path: /home/cmsusr/artifacts/scan_RooMultiPdf.pdf
+
       - uses: rhaschke/docker-run-action@v5
         name: Counting datacard
         with:
@@ -153,40 +187,7 @@ jobs:
             source /cvmfs/cms.cern.ch/cmsset_default.sh
             cmsenv
             text2workspace.py HiggsAnalysis/CombinedLimit/data/ci/template-analysis_shapeNInterp.txt -o ws_template-analysis.root --mass 200 --for-fits --no-wrappers --use-histsum
-            combine -M MultiDimFit ws_template-analysis.root --algo singles  --setParameterRanges r=-1,1 --X-rtd FAST_VERTICAL_MORPH
-    
-      - name: whereami
-        run: | 
-          pwd
-          ls -ltr 
-          ls /home/runner/work/
-
-
-      - uses: rhaschke/docker-run-action@v5
-        name: RooMultiPdf
-        if: ${{ startsWith(matrix.CMSSW_VERSION, 'CMSSW_14') }}
-        with:
-          image: ${{ matrix.IMAGE }}
-          shell: bash
-          options: ${{ env.docker_opt_ro }}
-          run: |
-            cp -r cmssw/${CMSSW_VERSION} .
-            cd /home/cmsusr/${CMSSW_VERSION}/src
-            source /cvmfs/cms.cern.ch/cmsset_default.sh
-            cmsenv
-            ulimit -s unlimited
-            text2workspace.py HiggsAnalysis/CombinedLimit/data/ci/datacard_RooMultiPdf.txt.gz  -o ws_RooMultiPdf.root
-            combine -M MultiDimFit -m 125.38  --setParameters pdf_index_ggh=2 --freezeParameters MH --cminDefaultMinimizerStrategy 0 --X-rtd FAST_VERTICAL_MORPH --X-rtd MINIMIZER_freezeDisassociatedParams --X-rtd MINIMIZER_multiMin_maskChannels=2 --algo singles ws_RooMultiPdf.root
-            combine -M MultiDimFit -m 125.38 -n RooMultiPdfGrid --freezeParameters MH --cminDefaultMinimizerStrategy 0 --X-rtd FAST_VERTICAL_MORPH --X-rtd MINIMIZER_freezeDisassociatedParams --X-rtd MINIMIZER_multiMin_maskChannels=2 --algo grid ws_RooMultiPdf.root --setParameterRanges r=-1,2 --points 80 -P r
-            plot1DScan.py higgsCombineRooMultiPdfGrid.MultiDimFit.mH125.38.root -o scan_RooMultiPdf 
-            cp scan_RooMultiPdf.pdf /home/cmsusr/artifacts/.
-
-
-      - name: Upload scan_RooMultiPdf.pdf
-        uses: actions/upload-artifact@v4
-        with:
-          name: Scan for RooMultiPdf 
-          path: /home/cmsusr/artifacts/scan_RooMultiPdf.pdf
+            combine -M MultiDimFit ws_template-analysis.root --algo singles  --setParameterRanges r=-1,1 --X-rtd FAST_VERTICAL_MORPH  
 
       - uses: rhaschke/docker-run-action@v5
         name: RooParametricHist
