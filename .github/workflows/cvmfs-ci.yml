@@ -57,6 +57,7 @@ jobs:
           options: ${{env.docker_opt_rw}}
           run: | 
             ls /home/runner/work/
+            mkdir -p /home/runner/work/artifacts
             cd /home/cmsusr/
             source /cvmfs/cms.cern.ch/cmsset_default.sh
             scram project ${CMSSW_VERSION}
