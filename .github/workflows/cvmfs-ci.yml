@@ -35,7 +35,7 @@ jobs:
             SCRAM_ARCH: "el8_amd64_gcc12"
             ROOT: "ROOT v6.32/06"
     env:
-      docker_opt_rw: -v /cvmfs:/cvmfs:shared -v ${{ github.workspace }}:/work/CombinedLimit  --mount source=cmsusr,destination=/home/cmsusr -w /home/cmsusr -e CMSSW_VERSION=${{ matrix.CMSSW_VERSION }} -e SCRAM_ARCH=${{ matrix.SCRAM_ARCH }}  -v  -v ${{ github.workspace }}/artifacts:/home/runner/work/artifacts:rshared,rw
+      docker_opt_rw: -v /cvmfs:/cvmfs:shared -v ${{ github.workspace }}:/work/CombinedLimit  --mount source=cmsusr,destination=/home/cmsusr -w /home/cmsusr -e CMSSW_VERSION=${{ matrix.CMSSW_VERSION }} -e SCRAM_ARCH=${{ matrix.SCRAM_ARCH }}  -v  ${{ github.workspace }}/artifacts:/home/runner/work/artifacts:rshared,rw
       docker_opt_ro: -v /cvmfs:/cvmfs:shared -v cmsusr:/home/cmsusr/cmssw/:ro -w /home/cmsusr/ -e CMSSW_VERSION=${{ matrix.CMSSW_VERSION }} -e SCRAM_ARCH=${{ matrix.SCRAM_ARCH }} -v ${{ github.workspace }}/artifacts:/home/runner/work/artifacts:rshared,rw
     name: Test with ${{ matrix.CMSSW_VERSION }} and ${{ matrix.ROOT }} 
     steps:
