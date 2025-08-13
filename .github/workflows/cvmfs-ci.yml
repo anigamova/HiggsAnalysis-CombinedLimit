@@ -98,11 +98,17 @@ jobs:
             cp scan_RooMultiPdf.pdf ${{ github.workspace }}/artifacts/.
 
 
+      - name: whereami
+        run: | 
+          pwd
+          ls -ltr 
+          ls -ltr /home/runner/work/**
+
       - name: Upload scan_RooMultiPdf.pdf
         uses: actions/upload-artifact@v4
         with:
           name: Scan for RooMultiPdf 
-          path: ${{ github.workspace }}/artifacts/scan_RooMultiPdf.pdf
+          path: /home/runner/work/artifacts/scan_RooMultiPdf.pdf
 
       - uses: rhaschke/docker-run-action@v5
         name: Counting datacard
