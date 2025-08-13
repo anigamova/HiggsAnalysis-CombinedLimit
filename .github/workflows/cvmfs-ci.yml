@@ -36,7 +36,7 @@ jobs:
             ROOT: "ROOT v6.32/06"
     env:
       docker_opt_rw: -v /cvmfs:/cvmfs:shared -v ${{ github.workspace }}:/work/CombinedLimit  --mount source=cmsusr,destination=/home/cmsusr -w /home/cmsusr -e CMSSW_VERSION=${{ matrix.CMSSW_VERSION }} -e SCRAM_ARCH=${{ matrix.SCRAM_ARCH }}
-      docker_opt_ro: -v /cvmfs:/cvmfs:shared -v cmsusr:/home/cmsusr/cmssw/:ro -w /home/cmsusr/ -e CMSSW_VERSION=${{ matrix.CMSSW_VERSION }} -e SCRAM_ARCH=${{ matrix.SCRAM_ARCH }} -v /home/runner/work/artifacts:/home/runner/work/artifacts
+      docker_opt_ro: -v /cvmfs:/cvmfs:shared -v cmsusr:/home/cmsusr/cmssw/:ro -w /home/cmsusr/ -e CMSSW_VERSION=${{ matrix.CMSSW_VERSION }} -e SCRAM_ARCH=${{ matrix.SCRAM_ARCH }} -v /home/runner/work/artifacts:/home/runner/work/artifacts:rshared
     name: Test with ${{ matrix.CMSSW_VERSION }} and ${{ matrix.ROOT }} 
     steps:
       - name: whereami
