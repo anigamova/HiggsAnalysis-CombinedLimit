@@ -57,8 +57,6 @@ jobs:
           options: ${{env.docker_opt_rw}}
           run: | 
             pwd
-            mkdir -p /work/artifacts
-            ls /work/artifacts/*
             cd /home/cmsusr/
             source /cvmfs/cms.cern.ch/cmsset_default.sh
             scram project ${CMSSW_VERSION}
@@ -98,7 +96,7 @@ jobs:
             combine -M MultiDimFit -m 125.38 -n RooMultiPdfGrid --freezeParameters MH --cminDefaultMinimizerStrategy 0 --X-rtd FAST_VERTICAL_MORPH --X-rtd MINIMIZER_freezeDisassociatedParams --X-rtd MINIMIZER_multiMin_maskChannels=2 --algo grid ws_RooMultiPdf.root --setParameterRanges r=-1,2 --points 80 -P r
             plot1DScan.py higgsCombineRooMultiPdfGrid.MultiDimFit.mH125.38.root -o scan_RooMultiPdf 
             ls -ltr */**
-            cp scan_RooMultiPdf.pdf /work/artifacts/.
+            cp scan_RooMultiPdf.pdf HiggsAnalysis/CombinedLimit/artifacts/.
 
 
       - name: whereami
