@@ -85,6 +85,7 @@ jobs:
           shell: bash
           options: ${{ env.docker_opt_ro }}
           run: |
+            pwd
             ls /home/runner/work/
             cp -r cmssw/${CMSSW_VERSION} .
             cd /home/cmsusr/${CMSSW_VERSION}/src
