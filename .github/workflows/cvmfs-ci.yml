@@ -35,7 +35,7 @@ jobs:
 #            SCRAM_ARCH: "el8_amd64_gcc12"
 #            ROOT: "ROOT v6.32/06"
     env:
-      docker_opt_rw: -v /cvmfs:/cvmfs:shared -v ${{ github.workspace }}:/work/CombinedLimit  --mount source=cmsusr,destination=/home/cmsusr -v ./work_dir:/home/cmsusr/ -w /home/cmsusr -e CMSSW_VERSION=${{ matrix.CMSSW_VERSION }} -e SCRAM_ARCH=${{ matrix.SCRAM_ARCH }}  
+      docker_opt_rw: -v /cvmfs:/cvmfs:shared -v ${{ github.workspace }}:/work/CombinedLimit  --mount source=cmsusr,destination=/home/cmsusr -v ./artifacts:/home/cmsusr/artifacts -w /home/cmsusr -e CMSSW_VERSION=${{ matrix.CMSSW_VERSION }} -e SCRAM_ARCH=${{ matrix.SCRAM_ARCH }}  
       docker_opt_ro: -v /cvmfs:/cvmfs:shared -v cmsusr:/home/cmsusr/cmssw/:ro -w /home/cmsusr/ -e CMSSW_VERSION=${{ matrix.CMSSW_VERSION }} -e SCRAM_ARCH=${{ matrix.SCRAM_ARCH }} 
     name: Test with ${{ matrix.CMSSW_VERSION }} and ${{ matrix.ROOT }} 
     steps:
@@ -95,7 +95,6 @@ jobs:
             combine -M MultiDimFit -m 125.38 -n RooMultiPdfGrid --freezeParameters MH --cminDefaultMinimizerStrategy 0 --X-rtd FAST_VERTICAL_MORPH --X-rtd MINIMIZER_freezeDisassociatedParams --X-rtd MINIMIZER_multiMin_maskChannels=2 --algo grid ws_RooMultiPdf.root --setParameterRanges r=-1,2 --points 80 -P r
             plot1DScan.py higgsCombineRooMultiPdfGrid.MultiDimFit.mH125.38.root -o scan_RooMultiPdf 
             ls -ltr */**
-            mkdir -p /home/cmsusr/artifacts
             cp scan_RooMultiPdf.pdf /home/cmsusr/artifacts
 
 
