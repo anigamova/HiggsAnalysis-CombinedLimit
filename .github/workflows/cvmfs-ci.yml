@@ -60,8 +60,7 @@ jobs:
           run: |
             pwd
             ls /home/runner/work/
-            touch tmp_file.txt
-            
+            touch tmp_file.txt   
             cp tmp_file.txt /output/artifacts/
 
 
