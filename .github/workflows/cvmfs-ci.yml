@@ -51,6 +51,21 @@ jobs:
           cvmfs_repositories: 'cms.cern.ch'
 
       - uses: rhaschke/docker-run-action@v5
+        name: RooMultiPdf
+        if: ${{ startsWith(matrix.CMSSW_VERSION, 'CMSSW_14') }}
+        with:
+          image: ${{ matrix.IMAGE }}
+          shell: bash
+          options: ${{ env.docker_opt_ro }}
+          run: |
+            pwd
+            ls /home/runner/work/
+            touch tmp_file.txt
+            
+            cp tmp_file.txt /output/artifacts/
+
+
+      - uses: rhaschke/docker-run-action@v5
         name: Build Combine
         with:
           image: ${{ matrix.IMAGE }}
