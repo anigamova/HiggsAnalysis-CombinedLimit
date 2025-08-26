@@ -83,7 +83,7 @@ jobs:
         with:
           image: ${{ matrix.IMAGE }}
           shell: bash
-          options: ${{ env.docker_opt_rw }}
+          options: ${{ env.docker_opt_ro }}
           run: |
             pwd
             ls /home/runner/work/
@@ -97,7 +97,7 @@ jobs:
             combine -M MultiDimFit -m 125.38 -n RooMultiPdfGrid --freezeParameters MH --cminDefaultMinimizerStrategy 0 --X-rtd FAST_VERTICAL_MORPH --X-rtd MINIMIZER_freezeDisassociatedParams --X-rtd MINIMIZER_multiMin_maskChannels=2 --algo grid ws_RooMultiPdf.root --setParameterRanges r=-1,2 --points 80 -P r
             plot1DScan.py higgsCombineRooMultiPdfGrid.MultiDimFit.mH125.38.root -o scan_RooMultiPdf 
             ls -ltr */**
-            cp scan_RooMultiPdf.pdf /output/artifacts
+            cp scan_RooMultiPdf.pdf /output/artifacts/.
 
 
       - name: whereami
